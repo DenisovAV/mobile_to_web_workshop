@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // Should import flutter:services for the user, otherwise when they try to use LogicalKeyboardkey etc they will see errors and have to figure out which dependency they need. Easy with an IDE, harder with Dartpad.
 
 void main() {
   runApp(const WorkshopApp());
