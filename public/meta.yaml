@@ -1,0 +1,37 @@
+name: Journey from mobile app to web or desktop app
+
+# Accepts 'flutter' or 'dart'
+type: flutter
+
+# Configuration for each step 
+steps:
+  - name: Introduction
+    directory: 01_introduction
+    has_solution: true
+  - name: Hover effect
+    directory: 02_hover
+    has_solution: true
+  - name: Animated effects
+    directory: 03_animated_effect
+    has_solution: true
+  - name: Focus
+    directory: 04_focus
+    has_solution: true
+  - name: Long press
+    directory: 05_long_press
+    has_solution: true
+  - name: Keyboard listener
+    directory: 06_keyboard_listener
+    has_solution: true
+  - name: Shortcuts and Actions
+    directory: 07_shortcuts
+    has_solution: true
+  - name: Default handlers
+    directory: 08_defaults
+    has_solution: true
+  - name: Focusable action detector
+    directory: 09_focusable_action_detector
+    has_solution: true
+  - name: Conclusions
+    directory: 10_conclusions
+    has_solution: false
