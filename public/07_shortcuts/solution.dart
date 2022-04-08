@@ -86,6 +86,7 @@ class WorkshopPage extends StatefulWidget {
 }
 
 class _WorkshopPageState extends State<WorkshopPage> {
+  // Why not just a List here? 
   final _nodes = Map<int, FocusNode>.fromEntries(
     List.generate(8, (index) => MapEntry(index, FocusNode())),
   );

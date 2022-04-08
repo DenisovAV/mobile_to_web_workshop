@@ -2,8 +2,9 @@
 
 Another important point when developing a web or desktop application is keyboard control. In our case, the keyboard should control the selection of the current grid element.
 
-Flutter has an out-of-the-box focus system that directs the keyboard input to a particular part of an application. There is an article [Understanding Flutter's focus system](https://docs.flutter.dev/development/ui/advanced/focus) that describes in detail how to work with focus. In order to add the ability to move between elements using the keyboard, we just need to wrap each element in a [`Focus`](https://api.flutter.dev/flutter/widgets/Focus-class.html) widget.
+Flutter has an out-of-the-box focus system that directs the keyboard input to a particular part of an application. The article "[Understanding Flutter's focus system](https://docs.flutter.dev/development/ui/advanced/focus)" describes in detail how to work with focus. In order to add the ability to move between elements using the keyboard, we just need to wrap each element in a [`Focus`](https://api.flutter.dev/flutter/widgets/Focus-class.html) widget.
 
+<!-- I'm not sure how important it is to show the whole constructor -- it's kind of distracting. Maybe just highlight the important properties you want to show? -->
 ```dart
 class Focus extends StatefulWidget {
  /// Creates a widget that manages a [FocusNode].
@@ -28,6 +29,9 @@ class Focus extends StatefulWidget {
 }
 ```
 
+<!-- This step has a lot of good content, and I've added some headings to help split it up a bit -->
+## Responding to Focus Changes
+
 Using the `onFocusChange` callback, you can control when the focus is gained or lost by the widget.
 
 So we are able to switch between elements using the `Tab` key (*`Tab` key and cursor keys on Desktop*). However the highlighting of a selected element also needs to be implemented, and we can use the mentioned callback to change a highlighting state, for example, let's highlight a grid element with a different color.
@@ -38,7 +42,7 @@ To implement this functionality you need to perform the following actions:
 2. Add `Focus` into the build method.
 3. Add a `_onChangeFocus` callback to change the widget state based on focus state and set `onFocusChange` property of `Focus`.
 ```dart
- void _onChangeFocus(bool isHovered) => setState(() {
+ void _onChangeFocus(bool isFocused) => setState(() {
    _isFocused = isFocused;
  });
 ```
@@ -54,7 +58,10 @@ By the way, at the beginning of the Workshop, we changed `GestureDetector` to `I
 
 Also, due to the fact that we are using the `InkWell` widget, when you press enter or space on the focused grid element, the `onTap` callback will be automatically called, if we used a `Focus` widget, we would have to manually track button presses using the `onKeyEvent` or `onKey` callback. We are going to return to them in the following steps.
 
-The last but not least feature, that you need to implement here, is at least one grid element focused by default because the application looks strange if you support focus, but no element is focused. For this purpose, you can use the `autofocus` property of a `Focus` or `Inkwell` widget. If it is set in `true`, the widget will be selected as the initial focus when no other widget in its scope is currently focused. Let's set it `true' on the first element, whose index equals zero.
+## Autofocus
+
+
+The last but not least feature you need to implement here, is at least one grid element focused by default because the application looks strange if you support focus, but no element is focused. For this purpose, you can use the `autofocus` property of a `Focus` or `Inkwell` widget. If it is set in `true`, the widget will be selected as the initial focus when no other widget in its scope is currently focused. Let's set it `true' on the first element, whose index equals zero.
 
 So, you should implement something like this:
 

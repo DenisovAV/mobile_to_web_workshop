@@ -35,7 +35,7 @@ class WorkshopPage extends StatefulWidget {
 }
 
 class _WorkshopPageState extends State<WorkshopPage> {
-  //TODO: Create map of keys and intents
+  //TODO: Create map of keys and intents, known as "Shortcuts"
 
   //TODO: Create map that match idex of element and its focus node
 

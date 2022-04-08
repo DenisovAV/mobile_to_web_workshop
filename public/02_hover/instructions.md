@@ -4,6 +4,7 @@ Let's start with customizing the hover effect.
 
 In order to control the appearance of the widget depending on the behavior of the mouse, there is a special widget - `MouseRegion`. [`MouseRegion`](https://api.flutter.dev/flutter/widgets/MouseRegion-class.html) is a widget that forwards mouse events to callbacks.
 
+<!-- Overall, It might be nicer to see an example of how this is used, rather than the constructor. -->
 ```dart
 class MouseRegion extends StatefulWidget {
  /// Creates a widget that forwards mouse events to callbacks.
@@ -30,9 +31,17 @@ Using the `onEnter`, `onHover` and `onExit` callbacks, you can control when the 
 - `onHover` is triggered when a pointer moves into a position within this widget without buttons pressed.
 - `onExit` is triggered when the pointer, with or without buttons pressed, has stopped being contained by the region of this widget, except when the exit is caused by the disappearance of this widget.
 
+## Cursor
+
 In addition, using the `cursor` property, you can determine what the cursor will look like while it is on the widget.
 
-In order to improve our application and make the grid element change color when the mouse hovers over it you need to perform the following actions:
+```dart
+MouseRegion(
+  cursor: SystemMouseCursors.grab,
+)
+```
+
+In order to improve our application and make each product change color when the mouse hovers over it you need to perform the following actions:
 
 1. Change the widget type of `Cell` to a stateful widget, and add the `_isHovered` property to its state, to show whether the mouse is currently hovering over the widget or not.
 2. Add `MouseRegion` into the build method.

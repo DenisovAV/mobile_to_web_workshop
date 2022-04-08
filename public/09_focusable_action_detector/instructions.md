@@ -1,9 +1,10 @@
 # FocusableActionDetector
 
-So, everything looks almost good now! You have remade Mobile applications to Web or Desktop. You handle mouse and keyboard navigation and added some functionality specific only to devices with a hardware keyboard. The only thing that doesn't look very neat is the `Сell` widget code, with two nested focuses. Maybe there is an opportunity to implement the same functionality a little more neatly?
+Everything looks almost good now! You have remade Mobile applications to Web or Desktop. You handle mouse and keyboard navigation and added some functionality specific only to devices with a hardware keyboard. The only thing that doesn't look very neat is the `Сell` widget code, with two nested `Focus` widgets. Maybe there is an opportunity to implement the same functionality a little more neatly?
 
 There is a widget, that gives an opportunity to combine the `Shortcuts`, `Actions`, `Focus`, and `MouseRegion` widgets into one widget, its name is [`FocusableActionDetector`](https://api.flutter.dev/flutter/widgets/FocusableActionDetector-class.html). Lets try to replace some code by using it.
 
+<!-- Once again, I'd consider removing this bit! -->
 ```dart
 class FocusableActionDetector extends StatefulWidget {
  /// Create a const [FocusableActionDetector].
@@ -30,22 +31,23 @@ class FocusableActionDetector extends StatefulWidget {
 }
 ```
 
-The simplest, which you can replace, are `Shortcuts` and `Actions` in the `WorkshopPage` widget. You just need to remove them, put the `FocusableActionDetector`, and set `actions` and `shortcuts` properties with the previous values.
+The simplest widgets that you can replace are `Shortcuts` and `Actions` inside the `WorkshopPage` widget. You just need to remove them, put the `FocusableActionDetector`, and set `actions` and `shortcuts` properties with the previous values.
 
 ```dart
 FocusableActionDetector(
-     shortcuts: _shortcuts,
-     actions: <Type, Action<Intent>>{
-       InfoPageDigitIntent: InfoPageDigitAction(context),
-       FocusDigitIntent: FocusDigitAction(_nodes),
-     },
-     child:
+  shortcuts: _shortcuts,
+  actions: <Type, Action<Intent>>{
+    InfoPageDigitIntent: InfoPageDigitAction(context),
+    FocusDigitIntent: FocusDigitAction(_nodes),
+  },
+);
 ```
 
-And now, let's try to improve the `Cell` widget code. But there are some difficulties. We have used `Focus` to handle long-presses, how is it possible to do it using shortcuts functionality? There is a solution, a `SingleActivator` handles only key down events, you can create your own activator that is able to handle long-presses by handling key repeat and key up events. So, you have to extend a `SingleActivator` and override the `accepts` method
+Now, let's try to improve the `Cell` widget code. We have used `Focus` to handle long-presses, how is it possible to do it using shortcuts functionality? There is a solution, a `SingleActivator` handles only key down events, you can create your own activator that is able to handle long-presses by handling key repeat and key up events. So, you have to extend a `SingleActivator` and override the `accepts` method
 
 ```dart
 class LongPressActivator extends SingleActivator {
+  // Hm, this is confusing to me. Why does the LongPressActivator have an `isLongPress` variable? I thought that was the point of the class?
  final bool isLongPress;
  const LongPressActivator(LogicalKeyboardKey trigger, {this.isLongPress = false}) : super(trigger);
 
@@ -84,6 +86,8 @@ class LongPressDigitAction extends Action<LongPressActivateIntent> {
 4. Create map to combine `LongPressActivator` and `LongPressActivateIntent` for both presses and long-presses.
 ```dart
 const _cellShortcuts = <ShortcutActivator, Intent>{
+  // Ah, ok -- I get it now. You can't use a SingleActivator here since it would always accept the first keypress, and the LongPressActivator wouldn't get to do it's job. Therefore, you need this new class.
+  // Might be good to have just a little more explanation as to why a class named LogPressActivator needs the `isLongPress` variable :)
  LongPressActivator(LogicalKeyboardKey.enter, isLongPress: true): LongPressActivateIntent(true),
  LongPressActivator(LogicalKeyboardKey.enter, isLongPress: false): LongPressActivateIntent(false),
 ```

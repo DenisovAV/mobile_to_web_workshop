@@ -1,0 +1,5 @@
+  - Nice work, overall! Very important content.
+  - Animation step is great. Nice way to provide a bit of "jazz"
+  - I sometimes wonder if using `Inkwell` instead of raw `GestureDetector` makes things harder? Such as when you need to disable certain features, like `canRequestFocus`.
+  - I've rewritten some content that I found hard to read. I don't want to remove your voice or writing style, so please feel free to accept or reject any of these edits! 
+  - Time to take workshop and provide feedback: 1hr 45 mins.
