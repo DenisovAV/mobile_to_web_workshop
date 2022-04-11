@@ -190,9 +190,9 @@ class _CellState extends State<Cell> {
           LongPressActivateIntent: LongPressDigitAction(context, widget.index),
         },
         mouseCursor: SystemMouseCursors.click,
-        onShowHoverHighlight: _onChangeHover,
+        onShowHoverHighlight: _onHoverChange,
         autofocus: widget.index == 0,
-        onFocusChange: _onChangeFocus,
+        onFocusChange: _onFocusChange,
         child: AnimatedScale(
           scale: _isHovered ? 1.1 : 1.0,
           duration: _hoverDuration,
@@ -216,11 +216,11 @@ class _CellState extends State<Cell> {
     );
   }
 
-  void _onChangeHover(bool isHovered) => setState(() {
+  void _onHoverChange(bool isHovered) => setState(() {
     _isHovered = isHovered;
   });
 
-  void _onChangeFocus(bool isFocused) => setState(() {
+  void _onFocusChange(bool isFocused) => setState(() {
     _isFocused = isFocused;
   });
 }

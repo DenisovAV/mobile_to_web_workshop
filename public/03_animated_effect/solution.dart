@@ -71,26 +71,29 @@ class _CellState extends State<Cell> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(30.0),
-      child: InkWell(
+      child: GestureDetector(
         onLongPress: () => _showDialogInfo(context, widget.index),
         onTap: () => _showInfoPage(context, widget.index),
-        mouseCursor: SystemMouseCursors.click,
-        onHover: _onChangeHover,
-        child: AnimatedScale(
-          scale: _isHovered ? 1.1 : 1.0,
-          duration: _hoverDuration,
-          child: AnimatedPhysicalModel(
-            borderRadius: BorderRadius.circular(15),
-            color: Colors.blue,
-            shape: BoxShape.rectangle,
-            elevation: _isHovered ? 25 : 10,
-            shadowColor: Colors.black,
+        child: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          onHover: (_) => _onHoverChange(true),
+          onExit: (_) => _onHoverChange(false),
+          child: AnimatedScale(
+            scale: _isHovered ? 1.1 : 1.0,
             duration: _hoverDuration,
-            curve: Curves.fastOutSlowIn,
-            child: Center(
-              child: Text(
-                '${widget.index}',
-                style: const TextStyle(color: Colors.white, fontSize: 20),
+            child: AnimatedPhysicalModel(
+              borderRadius: BorderRadius.circular(15),
+              color: Colors.blue,
+              shape: BoxShape.rectangle,
+              elevation: _isHovered ? 25 : 10,
+              shadowColor: Colors.black,
+              duration: _hoverDuration,
+              curve: Curves.fastOutSlowIn,
+              child: Center(
+                child: Text(
+                  '${widget.index}',
+                  style: const TextStyle(color: Colors.white, fontSize: 20),
+                ),
               ),
             ),
           ),
@@ -100,7 +103,7 @@ class _CellState extends State<Cell> {
   }
 
   //Callback to change hovering state
-  void _onChangeHover(bool isHovered) => setState(() {
+  void _onHoverChange(bool isHovered) => setState(() {
     _isHovered = isHovered;
   });
 }

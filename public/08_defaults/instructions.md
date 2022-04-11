@@ -1,9 +1,8 @@
 # Difference in behavior between Web and Desktop
 
-In the **Introduction** step it was already mentioned, that you can use the `Tab` key to move `Focus` on the Web, and use the `Tab` key and cursors keys on a Desktop. Why does it work differently? And what if you want to control focus on the web using the keyboard cursor key? Let's figure it out.
+In the first step you learned that you can use the `Tab` key to move between `Focus` widgets on Flutter Web, but you can use both the `Tab` key _and_ arrow keys on Flutter Desktop. Why do they work differently? And what if you want to control focus on the Web using the keyboard arrow keys? Let's figure it out.
 
-Actually, at the root of the widget tree of our application, there is the [`MaterialApp`](https://api.flutter.dev/flutter/material/MaterialApp-class.html) widget, which uses [`WidgetApp`](https://api.flutter.dev/flutter/widgets/WidgetsApp-class.html) inside, and if you look into its implementation, you will see the initialization of default shortcuts, and the set of them is different for the Web and for the Desktop.
-
+The root of our application is the [`MaterialApp`](https://api.flutter.dev/flutter/material/MaterialApp-class.html) widget, which uses [`WidgetApp`](https://api.flutter.dev/flutter/widgets/WidgetsApp-class.html) under the hood. If you look into the `WidgetsApp` implementation, you will see the initialization of default shortcuts. The default set of Flutter Web shortcuts is different than set of Flutter Desktop shortcuts.
 * Web defaults:
 ```dart
    // Keyboard traversal.
@@ -22,7 +21,7 @@ Actually, at the root of the widget tree of our application, there is the [`Mate
    SingleActivator(LogicalKeyboardKey.arrowUp): DirectionalFocusIntent(TraversalDirection.up),
 ```
 
-So, in order to be able to control focus using the keyboard cursor, you only need to add 4 shortcuts to the `_shortcuts` map, after making sure that the application is running on the Web by checking the `kIsWeb` variable.
+So, in order to control focus using the arrow keys, you only need to add 4 shortcuts to the `_shortcuts` map after making sure that the application is running on the Web by checking the `kIsWeb` variable.
 
 You can prepare map of additional shortcuts, for example, this way:
 ```dart

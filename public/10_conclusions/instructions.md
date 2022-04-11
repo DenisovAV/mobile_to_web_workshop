@@ -15,9 +15,9 @@ So, you've learned how to:
 
 ## Related articles
 
-[Understanding Flutter's focus system](https://docs.flutter.dev/development/ui/advanced/focus)
-[Implicit animations](https://docs.flutter.dev/development/ui/animations/implicit-animations)
-[Using Actions and Shortcuts](https://docs.flutter.dev/development/ui/advanced/actions_and_shortcuts)
+  - [Understanding Flutter's focus system](https://docs.flutter.dev/development/ui/advanced/focus)
+  - [Implicit animations](https://docs.flutter.dev/development/ui/animations/implicit-animations)
+  - [Using Actions and Shortcuts](https://docs.flutter.dev/development/ui/advanced/actions_and_shortcuts)
 
 
 

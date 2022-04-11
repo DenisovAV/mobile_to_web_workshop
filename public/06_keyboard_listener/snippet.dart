@@ -71,44 +71,45 @@ class _CellState extends State<Cell> {
 
   @override
   Widget build(BuildContext context) {
-    return Focus(
-      onKeyEvent: (_, event) {
-        if ([LogicalKeyboardKey.enter, LogicalKeyboardKey.space].contains(event.logicalKey)) {
-          if (event is KeyRepeatEvent) {
-            _showDialogInfo(context, widget.index);
-          } else if (event is KeyUpEvent) {
-            _showInfoPage(context, widget.index);
+    return Padding(
+      padding: const EdgeInsets.all(30.0),
+      child: Focus(
+        autofocus: widget.index == 0,
+        onFocusChange: _onFocusChange,
+        onKeyEvent: (_, event) {
+          if ([LogicalKeyboardKey.enter, LogicalKeyboardKey.space].contains(event.logicalKey)) {
+            if (event is KeyRepeatEvent) {
+              _showDialogInfo(context, widget.index);
+            } else if (event is KeyUpEvent) {
+              _showInfoPage(context, widget.index);
+            }
+            return KeyEventResult.handled;
           }
-          return KeyEventResult.handled;
-        }
-        return KeyEventResult.ignored;
-      },
-      autofocus: widget.index == 0,
-      onFocusChange: _onChangeFocus,
-      child: Padding(
-        padding: const EdgeInsets.all(30.0),
-        child: InkWell(
+          return KeyEventResult.ignored;
+        },
+        child: GestureDetector(
           onLongPress: () => _showDialogInfo(context, widget.index),
           onTap: () => _showInfoPage(context, widget.index),
-          mouseCursor: SystemMouseCursors.click,
-          onHover: _onChangeHover,
-          focusColor: Colors.transparent,
-          canRequestFocus: false,
-          child: AnimatedScale(
-            scale: _isHovered ? 1.1 : 1.0,
-            duration: _hoverDuration,
-            child: AnimatedPhysicalModel(
-              borderRadius: BorderRadius.circular(15),
-              color: _isFocused ? Colors.blueGrey : Colors.blue,
-              shape: BoxShape.rectangle,
-              elevation: _isHovered ? 25 : 10,
-              shadowColor: Colors.black,
+          child: MouseRegion(
+            cursor: SystemMouseCursors.click,
+            onHover: (_) => _onHoverChange(true),
+            onExit: (_) => _onHoverChange(false),
+            child: AnimatedScale(
+              scale: _isHovered ? 1.1 : 1.0,
               duration: _hoverDuration,
-              curve: Curves.fastOutSlowIn,
-              child: Center(
-                child: Text(
-                  '${widget.index}',
-                  style: const TextStyle(color: Colors.white, fontSize: 20),
+              child: AnimatedPhysicalModel(
+                borderRadius: BorderRadius.circular(15),
+                color: _isFocused ? Colors.blueGrey : Colors.blue,
+                shape: BoxShape.rectangle,
+                elevation: _isHovered ? 25 : 10,
+                shadowColor: Colors.black,
+                duration: _hoverDuration,
+                curve: Curves.fastOutSlowIn,
+                child: Center(
+                  child: Text(
+                    '${widget.index}',
+                    style: const TextStyle(color: Colors.white, fontSize: 20),
+                  ),
                 ),
               ),
             ),
@@ -119,12 +120,12 @@ class _CellState extends State<Cell> {
   }
 
   //Callback to change hovering state
-  void _onChangeHover(bool isHovered) => setState(() {
+  void _onHoverChange(bool isHovered) => setState(() {
     _isHovered = isHovered;
   });
 
   //Callback to change focusing state
-  void _onChangeFocus(bool isFocused) => setState(() {
+  void _onFocusChange(bool isFocused) => setState(() {
     _isFocused = isFocused;
   });
 }
@@ -140,7 +141,6 @@ class InfoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     //TODO: Wrap into KeyboardListener widget
     return Scaffold(
       appBar: AppBar(

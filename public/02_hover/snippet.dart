@@ -49,11 +49,15 @@ class _WorkshopPageState extends State<WorkshopPage> {
   }
 }
 
-//Grid element widget
+// TODO: Convert the Cell widget into a StatefulWidget that stores an _isHovered
+// variable.
+//
+// Tip for VSCode users: Place your cursor over the word "Cell" and press alt + enter on
+// Windows/Linux or option + return on Mac. Select "Convert to StatefulWidget"
+// from the dropdown.
+
 class Cell extends StatelessWidget {
   final int index;
-
-  //TODO: Add hovering state
 
   const Cell({
     required this.index,
@@ -66,12 +70,14 @@ class Cell extends StatelessWidget {
       padding: const EdgeInsets.all(30.0),
       //TODO: Change color and elevation depending on the hovering state
       child: InkWell(
+        // TODO: Add a callback function to handle `onHover`
         onLongPress: () => _showDialogInfo(context, index),
         onTap: () => _showInfoPage(context, index),
         child: PhysicalModel(
-          borderRadius: BorderRadius.circular(15),
+          //TODO: Change color and elevation depending on the hovering state
           color: Colors.blue,
           elevation: 10,
+          borderRadius: BorderRadius.circular(15),
           shadowColor: Colors.black,
           child: Center(
             child: Text(

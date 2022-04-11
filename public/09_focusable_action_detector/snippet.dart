@@ -21,21 +21,21 @@ const _digits = <LogicalKeyboardKey>[
 
 const _cursorShortcuts = kIsWeb
     ? <ShortcutActivator, Intent>{
-        SingleActivator(LogicalKeyboardKey.arrowLeft):
-            DirectionalFocusIntent(TraversalDirection.left),
-        SingleActivator(LogicalKeyboardKey.arrowRight):
-            DirectionalFocusIntent(TraversalDirection.right),
-        SingleActivator(LogicalKeyboardKey.arrowDown):
-            DirectionalFocusIntent(TraversalDirection.down),
-        SingleActivator(LogicalKeyboardKey.arrowUp): DirectionalFocusIntent(TraversalDirection.up),
-      }
+  SingleActivator(LogicalKeyboardKey.arrowLeft):
+  DirectionalFocusIntent(TraversalDirection.left),
+  SingleActivator(LogicalKeyboardKey.arrowRight):
+  DirectionalFocusIntent(TraversalDirection.right),
+  SingleActivator(LogicalKeyboardKey.arrowDown):
+  DirectionalFocusIntent(TraversalDirection.down),
+  SingleActivator(LogicalKeyboardKey.arrowUp): DirectionalFocusIntent(TraversalDirection.up),
+}
     : <ShortcutActivator, Intent>{};
 
 final _shortcuts = Map<ShortcutActivator, Intent>.fromEntries(
   List.generate(
       8, (index) => MapEntry(CharacterActivator(index.toString()), FocusDigitIntent(index)))
     ..addAll(_digits.map(
-        (e) => MapEntry(SingleActivator(e, meta: true), FocusDigitIntent(_digits.indexOf(e))))),
+            (e) => MapEntry(SingleActivator(e, meta: true), FocusDigitIntent(_digits.indexOf(e))))),
 )..addAll(_cursorShortcuts);
 
 class InfoPageDigitIntent extends Intent {
@@ -57,13 +57,13 @@ class InfoPageDigitAction extends Action<InfoPageDigitIntent> {
 
   @override
   void invoke(covariant InfoPageDigitIntent intent) => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => InfoPage(
-            index: intent.index,
-          ),
-        ),
-      );
+    context,
+    MaterialPageRoute(
+      builder: (context) => InfoPage(
+        index: intent.index,
+      ),
+    ),
+  );
 }
 
 class FocusDigitAction extends Action<FocusDigitIntent> {
@@ -120,7 +120,7 @@ class _WorkshopPageState extends State<WorkshopPage> {
             crossAxisCount: 4,
             children: List.generate(
               8,
-              (index) {
+                  (index) {
                 return Cell(
                   index: index,
                   node: _nodes[index],
@@ -158,51 +158,52 @@ class _CellState extends State<Cell> {
   @override
   Widget build(BuildContext context) {
     final _actionHandler =
-        Actions.handler<InfoPageDigitIntent>(context, InfoPageDigitIntent(widget.index));
+    Actions.handler<InfoPageDigitIntent>(context, InfoPageDigitIntent(widget.index));
 
-    // TODO: Replace Focus and InkWell by FocusableActionDetector
+    // TODO: Replace Focus, GestureDetector and MouseRegion by FocusableActionDetector
 
-    return Focus(
-      focusNode: widget.node,
-      onKeyEvent: (_, event) {
-        if ([LogicalKeyboardKey.enter, LogicalKeyboardKey.space].contains(event.logicalKey)) {
-          if (event is KeyRepeatEvent) {
-            _showDialogInfo(context, widget.index);
-          } else if (event is KeyUpEvent) {
-            if (_actionHandler != null) {
-              _actionHandler();
+    return Padding(
+      padding: const EdgeInsets.all(30.0),
+      child: Focus(
+        focusNode: widget.node,
+        autofocus: widget.index == 0,
+        onFocusChange: _onFocusChange,
+        onKeyEvent: (_, event) {
+          if ([LogicalKeyboardKey.enter, LogicalKeyboardKey.space].contains(event.logicalKey)) {
+            if (event is KeyRepeatEvent) {
+              _showDialogInfo(context, widget.index);
+            } else if (event is KeyUpEvent) {
+              if (_actionHandler != null) {
+                _actionHandler();
+              }
             }
+            return KeyEventResult.handled;
           }
-          return KeyEventResult.handled;
-        }
-        return KeyEventResult.ignored;
-      },
-      autofocus: widget.index == 0,
-      onFocusChange: _onChangeFocus,
-      child: Padding(
-        padding: const EdgeInsets.all(30.0),
-        child: InkWell(
+          return KeyEventResult.ignored;
+        },
+        child: GestureDetector(
           onLongPress: () => _showDialogInfo(context, widget.index),
           onTap: _actionHandler,
-          mouseCursor: SystemMouseCursors.click,
-          onHover: _onChangeHover,
-          focusColor: Colors.transparent,
-          canRequestFocus: false,
-          child: AnimatedScale(
-            scale: _isHovered ? 1.1 : 1.0,
-            duration: _hoverDuration,
-            child: AnimatedPhysicalModel(
-              borderRadius: BorderRadius.circular(15),
-              color: _isFocused ? Colors.blueGrey : Colors.blue,
-              shape: BoxShape.rectangle,
-              elevation: _isHovered ? 25 : 10,
-              shadowColor: Colors.black,
+          child: MouseRegion(
+            cursor: SystemMouseCursors.click,
+            onHover: (_) => _onHoverChange(true),
+            onExit: (_) => _onHoverChange(false),
+            child: AnimatedScale(
+              scale: _isHovered ? 1.1 : 1.0,
               duration: _hoverDuration,
-              curve: Curves.fastOutSlowIn,
-              child: Center(
-                child: Text(
-                  '${widget.index}',
-                  style: const TextStyle(color: Colors.white, fontSize: 20),
+              child: AnimatedPhysicalModel(
+                borderRadius: BorderRadius.circular(15),
+                color: _isFocused ? Colors.blueGrey : Colors.blue,
+                shape: BoxShape.rectangle,
+                elevation: _isHovered ? 25 : 10,
+                shadowColor: Colors.black,
+                duration: _hoverDuration,
+                curve: Curves.fastOutSlowIn,
+                child: Center(
+                  child: Text(
+                    '${widget.index}',
+                    style: const TextStyle(color: Colors.white, fontSize: 20),
+                  ),
                 ),
               ),
             ),
@@ -213,14 +214,14 @@ class _CellState extends State<Cell> {
   }
 
   //Callback to change hovering state
-  void _onChangeHover(bool isHovered) => setState(() {
-        _isHovered = isHovered;
-      });
+  void _onHoverChange(bool isHovered) => setState(() {
+    _isHovered = isHovered;
+  });
 
   //Callback to change focusing state
-  void _onChangeFocus(bool isFocused) => setState(() {
-        _isFocused = isFocused;
-      });
+  void _onFocusChange(bool isFocused) => setState(() {
+    _isFocused = isFocused;
+  });
 }
 
 //Full element info widget
@@ -259,11 +260,11 @@ class InfoPage extends StatelessWidget {
 
 //Method shows dialog with info about grid element
 void _showDialogInfo(BuildContext context, int index) async => await showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Info'),
-          content: Text('Cell number $index'),
-        );
-      },
+  context: context,
+  builder: (BuildContext context) {
+    return AlertDialog(
+      title: const Text('Info'),
+      content: Text('Cell number $index'),
     );
+  },
+);

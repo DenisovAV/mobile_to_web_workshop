@@ -21,21 +21,21 @@ const _digits = <LogicalKeyboardKey>[
 
 const _cursorShortcuts = kIsWeb
     ? <ShortcutActivator, Intent>{
-        SingleActivator(LogicalKeyboardKey.arrowLeft):
-            DirectionalFocusIntent(TraversalDirection.left),
-        SingleActivator(LogicalKeyboardKey.arrowRight):
-            DirectionalFocusIntent(TraversalDirection.right),
-        SingleActivator(LogicalKeyboardKey.arrowDown):
-            DirectionalFocusIntent(TraversalDirection.down),
-        SingleActivator(LogicalKeyboardKey.arrowUp): DirectionalFocusIntent(TraversalDirection.up),
-      }
+  SingleActivator(LogicalKeyboardKey.arrowLeft):
+  DirectionalFocusIntent(TraversalDirection.left),
+  SingleActivator(LogicalKeyboardKey.arrowRight):
+  DirectionalFocusIntent(TraversalDirection.right),
+  SingleActivator(LogicalKeyboardKey.arrowDown):
+  DirectionalFocusIntent(TraversalDirection.down),
+  SingleActivator(LogicalKeyboardKey.arrowUp): DirectionalFocusIntent(TraversalDirection.up),
+}
     : <ShortcutActivator, Intent>{};
 
 final _shortcuts = Map<ShortcutActivator, Intent>.fromEntries(
   List.generate(
       8, (index) => MapEntry(CharacterActivator(index.toString()), FocusDigitIntent(index)))
     ..addAll(_digits.map(
-        (e) => MapEntry(SingleActivator(e, meta: true), FocusDigitIntent(_digits.indexOf(e))))),
+            (e) => MapEntry(SingleActivator(e, meta: true), FocusDigitIntent(_digits.indexOf(e))))),
 )..addAll(_cursorShortcuts);
 
 const _cellShortcuts = <ShortcutActivator, Intent>{
@@ -147,7 +147,7 @@ class _WorkshopPageState extends State<WorkshopPage> {
           crossAxisCount: 4,
           children: List.generate(
             8,
-            (index) {
+                (index) {
               return Cell(
                 index: index,
                 node: _nodes[index],
@@ -190,9 +190,9 @@ class _CellState extends State<Cell> {
           LongPressActivateIntent: LongPressDigitAction(context, widget.index),
         },
         mouseCursor: SystemMouseCursors.click,
-        onShowHoverHighlight: _onChangeHover,
+        onShowHoverHighlight: _onHoverChange,
         autofocus: widget.index == 0,
-        onFocusChange: _onChangeFocus,
+        onFocusChange: _onFocusChange,
         child: AnimatedScale(
           scale: _isHovered ? 1.1 : 1.0,
           duration: _hoverDuration,
@@ -216,13 +216,13 @@ class _CellState extends State<Cell> {
     );
   }
 
-  void _onChangeHover(bool isHovered) => setState(() {
-        _isHovered = isHovered;
-      });
+  void _onHoverChange(bool isHovered) => setState(() {
+    _isHovered = isHovered;
+  });
 
-  void _onChangeFocus(bool isFocused) => setState(() {
-        _isFocused = isFocused;
-      });
+  void _onFocusChange(bool isFocused) => setState(() {
+    _isFocused = isFocused;
+  });
 }
 
 class InfoPage extends StatelessWidget {
@@ -259,21 +259,21 @@ class InfoPage extends StatelessWidget {
 }
 
 void _showDialogInfo(BuildContext context, int index) async => await showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Info'),
-          content: Text('Cell number $index'),
-        );
-      },
+  context: context,
+  builder: (BuildContext context) {
+    return AlertDialog(
+      title: const Text('Info'),
+      content: Text('Cell number $index'),
     );
+  },
+);
 
 //Method opens new page with full info about the element
 void _showInfoPage(BuildContext context, int index) => Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => InfoPage(
-          index: index,
-        ),
-      ),
-    );
+  context,
+  MaterialPageRoute(
+    builder: (context) => InfoPage(
+      index: index,
+    ),
+  ),
+);

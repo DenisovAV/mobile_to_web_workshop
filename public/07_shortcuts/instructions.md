@@ -1,8 +1,8 @@
 # Shortcuts and Actions
 
-So, let's now add one more interesting feature to the application. Since each element of the grid has a number, we can implement control using shortcuts. By pressing the digit key, the corresponding element becomes active, and by pressing the Command + digit key, the corresponding `InfoPage` opens.
+So, let's now add one more interesting feature to the application. Since each element of the grid has a number, we can implement keyboard controls using shortcuts. By pressing the digit key, the corresponding element becomes active, and by pressing the Command + digit key, the corresponding `InfoPage` opens.
 
-There is the opportunity to bind physical keyboard events to actions in the user interface, and you can use it to define keyboard shortcuts in the application. There is an article [Using Actions and Shortcuts](https://docs.flutter.dev/development/ui/advanced/actions_and_shortcuts) that describes how to work with it.
+There is a system to bind physical keyboard events to actions in the user interface. The article "[Using Actions and Shortcuts](https://docs.flutter.dev/development/ui/advanced/actions_and_shortcuts)" describes how to work with the system in detail.
 
 First of all, you need to create intents. An intent is a generic action that the user wishes to perform, and an [`Intent`](https://api.flutter.dev/flutter/widgets/Intent-class.html) class instance represents these user intents in Flutter. Let's create two:
 * FocusDigitIntent to represent activation of the element (focusing on it)
@@ -11,6 +11,12 @@ First of all, you need to create intents. An intent is a generic action that the
 Both of them have to depend on the index of the element.
 
 ```dart
+class InfoPageDigitIntent extends Intent {
+  final int index;
+
+  const InfoPageDigitIntent(this.index);
+}
+
 class FocusDigitIntent extends Intent {
  final int index;
 
@@ -37,6 +43,17 @@ const _shortcuts = <ShortcutActivator, Intent>{
 Actually, you don't need to add all combinations manually. You can add all of them to the loop, like this:
 
 ```dart
+const _digits = <LogicalKeyboardKey>[
+  LogicalKeyboardKey.digit0,
+  LogicalKeyboardKey.digit1,
+  LogicalKeyboardKey.digit2,
+  LogicalKeyboardKey.digit3,
+  LogicalKeyboardKey.digit4,
+  LogicalKeyboardKey.digit5,
+  LogicalKeyboardKey.digit6,
+  LogicalKeyboardKey.digit7,
+];
+
 final _shortcuts = Map<ShortcutActivator, Intent>.fromEntries(
  List.generate(
      8, (index) => MapEntry(CharacterActivator(index.toString()), FocusDigitIntent(index)))

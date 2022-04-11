@@ -1,49 +1,22 @@
 # FocusableActionDetector
 
-So, everything looks almost good now! You have remade Mobile applications to Web or Desktop. You handle mouse and keyboard navigation and added some functionality specific only to devices with a hardware keyboard. The only thing that doesn't look very neat is the `Сell` widget code, with two nested focuses. Maybe there is an opportunity to implement the same functionality a little more neatly?
+Everything looks almost good now! You have remade Mobile applications to Web or Desktop. You handle mouse and keyboard navigation and added some functionality specific only to devices with a hardware keyboard. The only thing that doesn't look very neat is the `Сell` widget code, with two nested `Focus` widgets. Maybe there is an opportunity to implement the same functionality a little more neatly?
 
 There is a widget, that gives an opportunity to combine the `Shortcuts`, `Actions`, `Focus`, and `MouseRegion` widgets into one widget, its name is [`FocusableActionDetector`](https://api.flutter.dev/flutter/widgets/FocusableActionDetector-class.html). Lets try to replace some code by using it.
 
-```dart
-class FocusableActionDetector extends StatefulWidget {
- /// Create a const [FocusableActionDetector].
- ///
- /// The [enabled], [autofocus], [mouseCursor], and [child] arguments must not be null.
- const FocusableActionDetector({
-   Key? key,
-   this.enabled = true,
-   this.focusNode,
-   this.autofocus = false,
-   this.descendantsAreFocusable = true,
-   this.shortcuts,
-   this.actions,
-   this.onShowFocusHighlight,
-   this.onShowHoverHighlight,
-   this.onFocusChange,
-   this.mouseCursor = MouseCursor.defer,
-   required this.child,
- })  : assert(enabled != null),
-       assert(autofocus != null),
-       assert(mouseCursor != null),
-       assert(child != null),
-       super(key: key);
-}
-```
-
-The simplest, which you can replace, are `Shortcuts` and `Actions` in the `WorkshopPage` widget. You just need to remove them, put the `FocusableActionDetector`, and set `actions` and `shortcuts` properties with the previous values.
+The simplest widgets that you can replace are `Shortcuts` and `Actions` inside the `WorkshopPage` widget. You just need to remove them, put the `FocusableActionDetector`, and set `actions` and `shortcuts` properties with the previous values.
 
 ```dart
 FocusableActionDetector(
-     shortcuts: _shortcuts,
-     actions: <Type, Action<Intent>>{
-       InfoPageDigitIntent: InfoPageDigitAction(context),
-       FocusDigitIntent: FocusDigitAction(_nodes),
-     },
-     child:
+  shortcuts: _shortcuts,
+  actions: <Type, Action<Intent>>{
+    InfoPageDigitIntent: InfoPageDigitAction(context),
+    FocusDigitIntent: FocusDigitAction(_nodes),
+  },
+);
 ```
 
-And now, let's try to improve the `Cell` widget code. But there are some difficulties. We have used `Focus` to handle long-presses, how is it possible to do it using shortcuts functionality? There is a solution, a `SingleActivator` handles only key down events, you can create your own activator that is able to handle long-presses by handling key repeat and key up events. So, you have to extend a `SingleActivator` and override the `accepts` method
-
+Now, let's try to improve the `Cell` widget code. We have used `Focus` to handle long-presses, how is it possible to do it using shortcuts functionality? There is a solution, a `SingleActivator` handles only key down events, you can create your own activator that is able to handle long-presses by handling key repeat and key up events. So, you have to extend a `SingleActivator` and override the `accepts` method. New activator will be able to handle both, short-presses and long-preeses, the type of press should be provided by `isLongPress` property.
 ```dart
 class LongPressActivator extends SingleActivator {
  final bool isLongPress;

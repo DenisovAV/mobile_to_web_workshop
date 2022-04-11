@@ -30,7 +30,6 @@ class WorkshopPage extends StatefulWidget {
 }
 
 class _WorkshopPageState extends State<WorkshopPage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,20 +69,23 @@ class _CellState extends State<Cell> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(30.0),
-      child: InkWell(
+      child: GestureDetector(
         onLongPress: () => _showDialogInfo(context, widget.index),
         onTap: () => _showInfoPage(context, widget.index),
-        mouseCursor: SystemMouseCursors.click,
-        onHover: _onChangeHover,
-        child: PhysicalModel(
-          borderRadius: BorderRadius.circular(15),
-          color: _isHovered ? Colors.blueGrey : Colors.blue,
-          elevation: _isHovered ? 25 : 10,
-          shadowColor: Colors.black,
-          child: Center(
-            child: Text(
-              '${widget.index}',
-              style: const TextStyle(color: Colors.white, fontSize: 20),
+        child: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          onHover: (_) => _onHoverChange(true),
+          onExit: (_) => _onHoverChange(false),
+          child: PhysicalModel(
+            borderRadius: BorderRadius.circular(15),
+            color: _isHovered ? Colors.blueGrey : Colors.blue,
+            elevation: _isHovered ? 25 : 10,
+            shadowColor: Colors.black,
+            child: Center(
+              child: Text(
+                '${widget.index}',
+                style: const TextStyle(color: Colors.white, fontSize: 20),
+              ),
             ),
           ),
         ),
@@ -92,7 +94,7 @@ class _CellState extends State<Cell> {
   }
 
   //Callback to change hovering state
-  void _onChangeHover(bool isHovered) => setState(() {
+  void _onHoverChange(bool isHovered) => setState(() {
     _isHovered = isHovered;
   });
 }
