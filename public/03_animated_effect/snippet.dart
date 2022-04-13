@@ -76,7 +76,8 @@ class _CellState extends State<Cell> {
           cursor: SystemMouseCursors.click,
           onHover: (_) => _onHoverChange(true),
           onExit: (_) => _onHoverChange(false),
-          //TODO: Replace PhysicalModel by set of animated widgets
+          //TODO: Add AnimatedScale in order to animate size of widget
+          //TODO: Replace PhysicalModel by AnimatedPhysicalModel in order to animate shadow
           child: PhysicalModel(
             borderRadius: BorderRadius.circular(15),
             color: _isHovered ? Colors.blueGrey : Colors.blue,

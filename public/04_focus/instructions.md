@@ -2,7 +2,7 @@
 
 Another important point when developing a web or desktop application is keyboard control. In our case, the keyboard should control the selection of the current grid element.
 
-Flutter has an out-of-the-box focus system that directs the keyboard input to a particular part of an application. The article "[Understanding Flutter's focus system](https://docs.flutter.dev/development/ui/advanced/focus)" describes in detail how to work with focus. In order to add the ability to move between elements using the keyboard, we just need to wrap each element in a [`Focus`](https://api.flutter.dev/flutter/widgets/Focus-class.html) widget.
+Flutter has an out-of-the-box focus system that directs the keyboard input to a particular part of an application. The article "[Understanding Flutter's focus system](https://docs.flutter.dev/development/ui/advanced/focus)" describes in detail how to work with focus. In order to add the ability to move between elements using the keyboard, you just need to wrap each element in a [`Focus`](https://api.flutter.dev/flutter/widgets/Focus-class.html) widget.
 
 Using the `onFocusChange` callback, you can control when the focus is gained or lost by the widget.
 
@@ -12,7 +12,7 @@ Focus(
  )
 ```
 
-So we are able to switch between elements using the `Tab` key (*`Tab` key and arrow keys on Desktop*). However the highlighting of a selected element also needs to be implemented, and we can use the mentioned callback to change a highlighting state, for example, let's highlight a grid element with a different color.
+So you are able to switch between elements using the `Tab` key (*`Tab` key and arrow keys on Desktop*). However the highlighting of a selected element also needs to be implemented, and you can use the mentioned callback to change a highlighting state, for example, let's highlight a grid element with a different color.
 
 To implement this functionality you need to perform the following actions:
 
@@ -38,7 +38,7 @@ Also, if you use the `InkWell` widget, when you press enter or space on the focu
 typedef FocusOnKeyEventCallback = KeyEventResult Function(FocusNode node, KeyEvent event);
 ```
 
-In the `KeyEvent`, we get information about which key was pressed, and the event itself can be of three types:
+In the `KeyEvent`, you get information about which key was pressed, and the event itself can be of three types:
 * [`KeyDownEvent`](https://api.flutter.dev/flutter/services/KeyDownEvent-class.html), a key event representing the user pressing a key.
 * [`KeyRepeatEvent`](https://api.flutter.dev/flutter/services/KeyRepeatEvent-class.html), a key event representing the user holding a key, causing repeated events.
 * [`KeyUpEvent`](https://api.flutter.dev/flutter/services/KeyUpEvent-class.html), a key event representing the user releasing a key.

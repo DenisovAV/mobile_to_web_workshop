@@ -65,7 +65,7 @@ In order to improve our application and make each product change color when the 
       )
 ```
 
-Actually, you can not add the `MouseRegion` widget, since it is already included in the `InkWell` widget that we are using. It has a `mouseCursor` property, which is equivalent to MouseRegion's `cursor`, and an `onHover` callback that can be used to control the moment when the mouse cursor hovers over the widget. 
+PS: Actually, you can not add the `MouseRegion` widget, since it is already included in the `InkWell` widget that you used in the previous step. It also has a `mouseCursor` property, which is equivalent to MouseRegion's `cursor`, and an `onHover` callback that can be used to control the moment when the mouse cursor hovers over the widget. 
 
 1. Change the widget type of `Cell` to a stateful widget, and add the `_isHovered` property to its state, to show whether the mouse is currently hovering over the widget or not.
 2. Add a `_onHoverChange` callback to change the state based on mouse hover and set `onHover` property of InkWell.
@@ -91,3 +91,5 @@ Actually, you can not add the `MouseRegion` widget, since it is already included
        ),
      )
 ```
+
+You can check this approach as well, but there is the approach with `MouseRegion` implemented in the solution.

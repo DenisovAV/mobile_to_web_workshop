@@ -1,6 +1,6 @@
 # Shortcuts and Actions
 
-So, let's now add one more interesting feature to the application. Since each element of the grid has a number, we can implement keyboard controls using shortcuts. By pressing the digit key, the corresponding element becomes active, and by pressing the Command + digit key, the corresponding `InfoPage` opens.
+So, let's now add one more interesting feature to the application. Since each element of the grid has a number, you can implement keyboard controls using shortcuts. By pressing the digit key, the corresponding element becomes active, and by pressing the Command + digit key, the corresponding `InfoPage` opens.
 
 There is a system to bind physical keyboard events to actions in the user interface. The article "[Using Actions and Shortcuts](https://docs.flutter.dev/development/ui/advanced/actions_and_shortcuts)" describes how to work with the system in detail.
 
@@ -86,7 +86,7 @@ class InfoPageDigitAction extends Action<InfoPageDigitIntent> {
 }
 ```
 
-With the `FocusDigitAction`, everything is a bit more complicated. To activate the corresponding element you need to request its focus, so that you can pass its `FocusNode`. In order to do this, we need to create a map for matching an element's index with its node.
+With the `FocusDigitAction`, everything is a bit more complicated. To activate the corresponding element you need to request its focus, so that you can pass its `FocusNode`. In order to do this, you need to create a map for matching an element's index with its node.
 
 ```dart
 class FocusDigitAction extends Action<FocusDigitIntent> {

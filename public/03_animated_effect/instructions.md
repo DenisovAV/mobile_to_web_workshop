@@ -2,7 +2,7 @@
 
 In this step, let's try to make the hover effect more interesting by adding animation to it.
 
-To begin with, we animate the shadow cast by the grid element and the color change. To do this you need to replace the widget [`PhysicalModel`](https://api.flutter.dev/flutter/widgets/PhysicalModel-class.html) with [`AnimatedPhysicalModel`](https://api.flutter.dev/flutter/widgets/AnimatedPhysicalModel-class.html), for example like this:
+To begin with, you can animate the shadow cast by the grid element and the color change. To do this you need to replace the widget [`PhysicalModel`](https://api.flutter.dev/flutter/widgets/PhysicalModel-class.html) with [`AnimatedPhysicalModel`](https://api.flutter.dev/flutter/widgets/AnimatedPhysicalModel-class.html), for example like this:
 ```dart
 AnimatedPhysicalModel(
   borderRadius: BorderRadius.circular(15),
