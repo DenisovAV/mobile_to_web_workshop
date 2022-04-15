@@ -34,7 +34,7 @@ Now when you hover the mouse pointer to the element, the mouse cursor is changed
 1. To check focus keyboard control is working, make sure to "Run" your code, click inside the "UI Output" window, then hit the `Tab` key.
 2. DartPad has **Flutter for Web** under the hood, so you can use the `Tab` key only for focus moving. If you copy the code and run it in IDE for Desktop, you will be able to use arrow keys as well.
 
-## Note: If you can't check any step in **the DartPad** by any reason, you can check it in your IDE.
+## Note: If you encounter issues running the code in the DartPad, for example pressing keys doesn't work, copy the code over to a new Flutter project on your IDE and run it there.
 
 PS: If you don't need to highlight a focus and hover effect you can set [`FocusHighLightStrategy`](https://api.flutter.dev/flutter/widgets/FocusManager/highlightStrategy.html) to `FocusHighlightStrategy.alwaysTouch`, so that focus highlights will only appear on widgets that bring up a soft keyboard.
 
