@@ -184,30 +184,34 @@ class _CellState extends State<Cell> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(30.0),
-      child: FocusableActionDetector(
-        shortcuts: _cellShortcuts,
-        actions: <Type, Action<Intent>>{
-          LongPressActivateIntent: LongPressDigitAction(context, widget.index),
-        },
-        mouseCursor: SystemMouseCursors.click,
-        onShowHoverHighlight: _onHoverChange,
-        autofocus: widget.index == 0,
-        onFocusChange: _onFocusChange,
-        child: AnimatedScale(
-          scale: _isHovered ? 1.1 : 1.0,
-          duration: _hoverDuration,
-          child: AnimatedPhysicalModel(
-            borderRadius: BorderRadius.circular(15),
-            color: _isFocused ? Colors.blueGrey : Colors.blue,
-            shape: BoxShape.rectangle,
-            elevation: _isHovered ? 25 : 10,
-            shadowColor: Colors.black,
+      child: GestureDetector(
+        onLongPress: () => _showDialogInfo(context, widget.index),
+        onTap: () => _showInfoPage(context, widget.index),
+        child: FocusableActionDetector(
+          shortcuts: _cellShortcuts,
+          actions: <Type, Action<Intent>>{
+            LongPressActivateIntent: LongPressDigitAction(context, widget.index),
+          },
+          mouseCursor: SystemMouseCursors.click,
+          onShowHoverHighlight: _onHoverChange,
+          autofocus: widget.index == 0,
+          onFocusChange: _onFocusChange,
+          child: AnimatedScale(
+            scale: _isHovered ? 1.1 : 1.0,
             duration: _hoverDuration,
-            curve: Curves.fastOutSlowIn,
-            child: Center(
-              child: Text(
-                '${widget.index}',
-                style: const TextStyle(color: Colors.white, fontSize: 20),
+            child: AnimatedPhysicalModel(
+              borderRadius: BorderRadius.circular(15),
+              color: _isFocused ? Colors.blueGrey : Colors.blue,
+              shape: BoxShape.rectangle,
+              elevation: _isHovered ? 25 : 10,
+              shadowColor: Colors.black,
+              duration: _hoverDuration,
+              curve: Curves.fastOutSlowIn,
+              child: Center(
+                child: Text(
+                  '${widget.index}',
+                  style: const TextStyle(color: Colors.white, fontSize: 20),
+                ),
               ),
             ),
           ),
