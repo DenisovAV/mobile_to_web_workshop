@@ -7,6 +7,61 @@ void main() {
 
 const _name = 'Workshop: From Mobile to Web/Desktop';
 
+const _digits = <LogicalKeyboardKey>[
+  LogicalKeyboardKey.digit0,
+  LogicalKeyboardKey.digit1,
+  LogicalKeyboardKey.digit2,
+  LogicalKeyboardKey.digit3,
+  LogicalKeyboardKey.digit4,
+  LogicalKeyboardKey.digit5,
+  LogicalKeyboardKey.digit6,
+  LogicalKeyboardKey.digit7,
+];
+
+final _shortcuts = Map<ShortcutActivator, Intent>.fromEntries(
+  List.generate(
+      8, (index) => MapEntry(CharacterActivator(index.toString()), FocusDigitIntent(index)))
+    ..addAll(_digits.map(
+            (e) => MapEntry(SingleActivator(e, meta: true), InfoPageDigitIntent(_digits.indexOf(e))))),
+);
+
+class InfoPageDigitIntent extends Intent {
+  final int index;
+
+  const InfoPageDigitIntent(this.index);
+}
+
+class FocusDigitIntent extends Intent {
+  final int index;
+
+  const FocusDigitIntent(this.index);
+}
+
+class InfoPageDigitAction extends Action<InfoPageDigitIntent> {
+  final BuildContext context;
+
+  InfoPageDigitAction(this.context);
+
+  @override
+  void invoke(covariant InfoPageDigitIntent intent) => Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => InfoPage(
+        index: intent.index,
+      ),
+    ),
+  );
+}
+
+class FocusDigitAction extends Action<FocusDigitIntent> {
+  final List<FocusNode> nodes;
+
+  FocusDigitAction(this.nodes);
+
+  @override
+  void invoke(covariant FocusDigitIntent intent) => nodes[intent.index].requestFocus();
+}
+
 class WorkshopApp extends StatelessWidget {
   const WorkshopApp({Key? key}) : super(key: key);
 
@@ -31,19 +86,33 @@ class WorkshopPage extends StatefulWidget {
 }
 
 class _WorkshopPageState extends State<WorkshopPage> {
+  final _nodes = List<FocusNode>.generate(8, (_) => FocusNode());
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(_name),
-      ),
-      body: GridView.count(
-        crossAxisCount: 4,
-        children: List.generate(
-          8,
-              (index) {
-            return Cell(index: index);
-          },
+    return Shortcuts(
+      shortcuts: _shortcuts,
+      child: Actions(
+        actions: <Type, Action<Intent>>{
+          InfoPageDigitIntent: InfoPageDigitAction(context),
+          FocusDigitIntent: FocusDigitAction(_nodes),
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text(_name),
+          ),
+          body: GridView.count(
+            crossAxisCount: 4,
+            children: List.generate(
+              8,
+                  (index) {
+                return Cell(
+                  index: index,
+                  node: _nodes[index],
+                );
+              },
+            ),
+          ),
         ),
       ),
     );
@@ -53,9 +122,11 @@ class _WorkshopPageState extends State<WorkshopPage> {
 //Grid element widget
 class Cell extends StatefulWidget {
   final int index;
+  final FocusNode? node;
 
   const Cell({
     required this.index,
+    this.node,
     Key? key,
   }) : super(key: key);
 
@@ -71,9 +142,12 @@ class _CellState extends State<Cell> {
 
   @override
   Widget build(BuildContext context) {
+    final _actionHandler =
+    Actions.handler<InfoPageDigitIntent>(context, InfoPageDigitIntent(widget.index));
     return Padding(
       padding: const EdgeInsets.all(30.0),
       child: Focus(
+        focusNode: widget.node,
         autofocus: widget.index == 0,
         onFocusChange: _onFocusChange,
         onKeyEvent: (_, event) {
@@ -81,7 +155,9 @@ class _CellState extends State<Cell> {
             if (event is KeyRepeatEvent) {
               _showDialogInfo(context, widget.index);
             } else if (event is KeyUpEvent) {
-              _showInfoPage(context, widget.index);
+              if (_actionHandler != null) {
+                _actionHandler();
+              }
             }
             return KeyEventResult.handled;
           }
@@ -89,7 +165,7 @@ class _CellState extends State<Cell> {
         },
         child: GestureDetector(
           onLongPress: () => _showDialogInfo(context, widget.index),
-          onTap: () => _showInfoPage(context, widget.index),
+          onTap: _actionHandler,
           child: MouseRegion(
             cursor: SystemMouseCursors.click,
             onHover: (_) => _onHoverChange(true),
@@ -157,7 +233,7 @@ class InfoPage extends StatelessWidget {
 }
 
 //Method shows dialog with info about grid element
-void _showDialogInfo(BuildContext context, int index) => showDialog<void>(
+void _showDialogInfo(BuildContext context, int index) async => await showDialog<void>(
   context: context,
   builder: (BuildContext context) {
     return AlertDialog(
@@ -165,14 +241,4 @@ void _showDialogInfo(BuildContext context, int index) => showDialog<void>(
       content: Text('Cell number $index'),
     );
   },
-);
-
-//Method opens new page with full info about the element
-void _showInfoPage(BuildContext context, int index) => Navigator.push(
-  context,
-  MaterialPageRoute(
-    builder: (context) => InfoPage(
-      index: index,
-    ),
-  ),
 );

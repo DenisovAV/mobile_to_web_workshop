@@ -36,7 +36,7 @@ Now when you hover the mouse pointer to the element, the mouse cursor is changed
 
 ## Note: If you encounter issues running the code in the DartPad, for example pressing keys doesn't work, copy the code over to a new Flutter project on your IDE and run it there.
 
-PS: If you don't need to highlight a focus and hover effect you can set [`FocusHighLightStrategy`](https://api.flutter.dev/flutter/widgets/FocusManager/highlightStrategy.html) to `FocusHighlightStrategy.alwaysTouch`, so that focus highlights will only appear on widgets that bring up a soft keyboard.
+PS: If you don't need to highlight a focus and hover effect you can set [`FocusHighLightStrategy`](https://api.flutter.dev/flutter/widgets/FocusManager/highlightStrategy.html) to `FocusHighlightStrategy.alwaysTouch`, so that focus highlights will only appear on widgets that bring up a soft keyboard. **The strategy affects the whole application, all your widgets.**
 
 ```dart
 FocusManager.instance.highlightStrategy = FocusHighlightStrategy.alwaysTouch;

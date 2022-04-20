@@ -7,6 +7,10 @@ void main() {
 
 const _name = 'Workshop: From Mobile to Web/Desktop';
 
+//TODO: Create intents
+
+//TODO: Create actions
+
 class WorkshopApp extends StatelessWidget {
   const WorkshopApp({Key? key}) : super(key: key);
 
@@ -31,6 +35,10 @@ class WorkshopPage extends StatefulWidget {
 }
 
 class _WorkshopPageState extends State<WorkshopPage> {
+  //TODO: Create map of keys and intents, known as "Shortcuts"
+
+  //TODO: Create map that match idex of element and its focus node
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,6 +63,7 @@ class Cell extends StatefulWidget {
   final int index;
 
   const Cell({
+    //TODO: Provide corresponding focus node to focus widget
     required this.index,
     Key? key,
   }) : super(key: key);
@@ -141,23 +150,14 @@ class InfoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return KeyboardListener(
-      autofocus: true,
-      focusNode: FocusNode(),
-      onKeyEvent: (event) {
-        if (event.logicalKey == LogicalKeyboardKey.escape && event is KeyDownEvent) {
-          Navigator.of(context).pop();
-        }
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('Detailed information $index'),
-        ),
-        body: Center(
-          child: Text(
-            index.toString(),
-            style: const TextStyle(fontSize: 40),
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Detailed information $index'),
+      ),
+      body: Center(
+        child: Text(
+          index.toString(),
+          style: const TextStyle(fontSize: 40),
         ),
       ),
     );

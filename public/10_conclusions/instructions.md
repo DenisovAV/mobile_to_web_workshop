@@ -2,7 +2,7 @@
 
 ## Congrats, you've done it!
 
-The workshop hasn’t been not easy, but in the process of going through it, you have solved many different tasks related to Web and Desktop specific user interaction tasks.
+In the process of going through the workshop, you have solved many different tasks related to Web and Desktop specific user interaction tasks.
 
 So, you've learned how to:
 

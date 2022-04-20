@@ -20,11 +20,11 @@ steps:
   - name: Long press
     directory: 05_long_press
     has_solution: true
-  - name: Keyboard listener
-    directory: 06_keyboard_listener
-    has_solution: true
   - name: Shortcuts and Actions
-    directory: 07_shortcuts
+    directory: 06_shortcuts
+    has_solution: true
+  - name: Keyboard listener
+    directory: 07_keyboard_listener
     has_solution: true
   - name: Default handlers
     directory: 08_defaults
