@@ -35,7 +35,7 @@ final _shortcuts = Map<ShortcutActivator, Intent>.fromEntries(
   List.generate(
       8, (index) => MapEntry(CharacterActivator(index.toString()), FocusDigitIntent(index)))
     ..addAll(_digits.map(
-            (e) => MapEntry(SingleActivator(e, meta: true), FocusDigitIntent(_digits.indexOf(e))))),
+            (e) => MapEntry(SingleActivator(e, meta: true), InfoPageDigitIntent(_digits.indexOf(e))))),
 )..addAll(_cursorShortcuts);
 
 class InfoPageDigitIntent extends Intent {

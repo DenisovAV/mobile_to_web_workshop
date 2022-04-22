@@ -35,7 +35,7 @@ final _shortcuts = Map<ShortcutActivator, Intent>.fromEntries(
   List.generate(
       8, (index) => MapEntry(CharacterActivator(index.toString()), FocusDigitIntent(index)))
     ..addAll(_digits.map(
-            (e) => MapEntry(SingleActivator(e, meta: true), FocusDigitIntent(_digits.indexOf(e))))),
+            (e) => MapEntry(SingleActivator(e, meta: true), InfoPageDigitIntent(_digits.indexOf(e))))),
 )..addAll(_cursorShortcuts);
 
 const _cellShortcuts = <ShortcutActivator, Intent>{
@@ -194,6 +194,7 @@ class _CellState extends State<Cell> {
         onLongPress: () => _showDialogInfo(context, widget.index),
         onTap: () => _showInfoPage(context, widget.index),
         child: FocusableActionDetector(
+          focusNode: widget.node,
           shortcuts: _cellShortcuts,
           actions: <Type, Action<Intent>>{
             LongPressActivateIntent: LongPressDigitAction(context, widget.index),

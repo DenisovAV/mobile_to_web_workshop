@@ -58,7 +58,7 @@ final _shortcuts = Map<ShortcutActivator, Intent>.fromEntries(
  List.generate(
      8, (index) => MapEntry(CharacterActivator(index.toString()), FocusDigitIntent(index)))
    ..addAll(_digits.map(
-       (e) => MapEntry(SingleActivator(e, meta: true), FocusDigitIntent(_digits.indexOf(e))))),
+       (e) => MapEntry(SingleActivator(e, meta: true), InfoPageDigitIntent(_digits.indexOf(e))))),
 );
 ```
 
@@ -90,12 +90,12 @@ With the `FocusDigitAction`, everything is a bit more complicated. To activate t
 
 ```dart
 class FocusDigitAction extends Action<FocusDigitIntent> {
- final Map<int, FocusNode> nodes;
+ final List<FocusNode> nodes;
 
  FocusDigitAction(this.nodes);
 
  @override
- void invoke(covariant FocusDigitIntent intent) => nodes[intent.index]?.requestFocus();
+ void invoke(covariant FocusDigitIntent intent) => nodes[intent.index].requestFocus();
 }
 ```
 
