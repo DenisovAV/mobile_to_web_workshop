@@ -108,15 +108,25 @@ So, there is very little left to do:
    List.generate(8, (index) => MapEntry(index, FocusNode())),
  );
 ```
-3. Add [`Actions`](https://api.flutter.dev/flutter/widgets/Actions-class.html) widget as `Shortcuts` child and set `actions` property with map matches intents and actions:
+3. Don't forget to dispose focus nodes through overriding of ```dispose``` method to avoid memory leaks:
+```dart
+  @override
+  void dispose() {
+    for (final node in _nodes) {
+      node.dispose();
+    }
+    super.dispose();
+  }
+```
+4. Add [`Actions`](https://api.flutter.dev/flutter/widgets/Actions-class.html) widget as `Shortcuts` child and set `actions` property with map matches intents and actions:
 ```dart
  actions: <Type, Action<Intent>>{
            InfoPageDigitIntent: InfoPageDigitAction(context),
            FocusDigitIntent: FocusDigitAction(_nodes),
  }
 ```
-4. Add the `focusNode` parameter to the `Cell` widget, in order to provide focus nodes from the map.
-5. Set the `focusNode` property of the `Focus` widget with the `FocusNode` provided above
+5. Add the `focusNode` parameter to the `Cell` widget, in order to provide focus nodes from the map.
+6. Set the `focusNode` property of the `Focus` widget with the `FocusNode` provided above
 
 By the way, you can do one more thing. You don't need the `_showInfoPage` anymore, so you can remove it using the action handler instead.
 

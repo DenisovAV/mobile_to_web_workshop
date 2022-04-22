@@ -95,12 +95,12 @@ class LongPressDigitAction extends Action<LongPressActivateIntent> {
 }
 
 class FocusDigitAction extends Action<FocusDigitIntent> {
-  final Map<int, FocusNode> nodes;
+  final List<FocusNode> nodes;
 
   FocusDigitAction(this.nodes);
 
   @override
-  void invoke(covariant FocusDigitIntent intent) => nodes[intent.index]?.requestFocus();
+  void invoke(covariant FocusDigitIntent intent) => nodes[intent.index].requestFocus();
 }
 
 class WorkshopApp extends StatelessWidget {
@@ -126,9 +126,15 @@ class WorkshopPage extends StatefulWidget {
 }
 
 class _WorkshopPageState extends State<WorkshopPage> {
-  final _nodes = Map<int, FocusNode>.fromEntries(
-    List.generate(8, (index) => MapEntry(index, FocusNode())),
-  );
+  final _nodes = List<FocusNode>.generate(8, (_) => FocusNode());
+
+  @override
+  void dispose() {
+    for (final node in _nodes) {
+      node.dispose();
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -229,7 +235,7 @@ class _CellState extends State<Cell> {
   });
 }
 
-class InfoPage extends StatelessWidget {
+class InfoPage extends StatefulWidget {
   final int index;
 
   const InfoPage({
@@ -238,10 +244,23 @@ class InfoPage extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _InfoPageState createState() => _InfoPageState();
+}
+
+class _InfoPageState extends State<InfoPage> {
+  final _node = FocusNode();
+
+  @override
+  void dispose() {
+    _node.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return KeyboardListener(
       autofocus: true,
-      focusNode: FocusNode(),
+      focusNode: _node,
       onKeyEvent: (event) {
         if (event.logicalKey == LogicalKeyboardKey.escape && event is KeyDownEvent) {
           Navigator.of(context).pop();
@@ -249,11 +268,11 @@ class InfoPage extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Detailed information $index'),
+          title: Text('Detailed information ${widget.index}'),
         ),
         body: Center(
           child: Text(
-            index.toString(),
+            widget.index.toString(),
             style: const TextStyle(fontSize: 40),
           ),
         ),

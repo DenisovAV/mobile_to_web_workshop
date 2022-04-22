@@ -16,7 +16,8 @@ To implement the mentioned functionality you need to do the following:
      }
 ```
 3. Set the `autofocus` property to `true`, in order to have focus after page opening.
-4. Set the `focusNode` property to the new `FocusNode`, because you need the focus node to handle keyboard events.
+4. Change type of widget to StatefulWidget, because you need to add the focus node to the state, in order to handle keyboard events
+4. Set the `focusNode` property to the new added `FocusNode` from the state, and don't forget to dispose it.
 
 So, let's get started!
 

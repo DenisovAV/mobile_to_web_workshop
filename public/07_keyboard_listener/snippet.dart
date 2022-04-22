@@ -89,6 +89,14 @@ class _WorkshopPageState extends State<WorkshopPage> {
   final _nodes = List<FocusNode>.generate(8, (_) => FocusNode());
 
   @override
+  void dispose() {
+    for (final node in _nodes) {
+      node.dispose();
+    }
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Shortcuts(
       shortcuts: _shortcuts,
